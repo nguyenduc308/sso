@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
+import { UserType } from "./user.dto";
 
 @Entity({name: 'user'})
-export class UserEntity {
+export class UserEntity extends BaseEntity {
     
     @PrimaryGeneratedColumn()
     id: string;
@@ -10,11 +11,11 @@ export class UserEntity {
     email: string;
     
     @Column({name: 'user_type'})
-    userType: string;
+    userType: UserType = UserType.Member;
 
     @CreateDateColumn({name: 'created_at'})
-    createdAt: Date;
+    createdAt: Date = new Date();
 
     @UpdateDateColumn({name: 'updated_at'})
-    updatedAt: Date;
+    updatedAt: Date = new Date();
 }

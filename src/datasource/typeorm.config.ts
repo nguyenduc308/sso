@@ -1,5 +1,3 @@
-import { Type } from '@nestjs/common';
-import {  } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -7,8 +5,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'duc',
+    password: '123456@Duc',
     database: 'medium',
-    entities: ['dist/**/*.entity.ts'],
+    entities: ["dist/**/*.entity.{ts,js}"],
     synchronize: true
 }
