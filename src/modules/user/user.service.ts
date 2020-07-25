@@ -3,7 +3,7 @@ import { UserRepository } from "./user.repository";
 import { UserEntity } from "./user.entity";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDTO } from "./user.dto";
-
+import * as _ from 'lodash';
 @Injectable()
 export class UserService {
     constructor(
@@ -21,7 +21,7 @@ export class UserService {
     }
 
     async createUser(data: CreateUserDTO): Promise<UserEntity> {
-        const newUser = this.usersRepository.create(data);
+        const newUser = this.usersRepository.create(_.omit(data, ['useType']));
         await newUser.save();
         return newUser;
     }
