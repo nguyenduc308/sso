@@ -24,4 +24,5 @@ export class UserEntity extends BaseEntity {
         cascade: true, 
     }) 
     stories: StoryEntity[]
+
 }
