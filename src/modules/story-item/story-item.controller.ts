@@ -30,6 +30,6 @@ export class StoryItemController {
         @Param('') storyId: number,
         @Body() data: any
     ) {
-        return this.itemService.moveItemPostions(storyId, data)
+        return await this.itemService.moveItemPostions(storyId, data)
     }
 }

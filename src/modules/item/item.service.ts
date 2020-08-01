@@ -32,27 +32,23 @@ export class ItemService {
     async moveItemPostions(storyId, data: any): Promise<any> {
         const newItemPositions = _.get(data, 'items', []);
 
-        // for (const itemPosition of newItemPositions) {
-        //     // {id: 1, displayIndex: 2}
-        //     const foundItem = await this.itemRepository.findOne(itemPosition.id);
-        //     foundItem.displayIndex = itemPosition.displayIndex;
-        //     await foundItem.save;
-        // }
-        const items = await this.itemRepository.find({storyId});
+        let items = await this.itemRepository.find({storyId});
 
         const itemsArr = items.map(item => {
-            const itemPosition = _.find(newItemPositions, itemPosition => {
-                return itemPosition.id = item.id;
-            })
 
-            item.displayIndex = itemPosition.displayIndex;
+            const itemPosition = data.items.find((itemData: any) => itemData.id === item.id);
+
+            if  (itemPosition) {
+                item.displayIndex = itemPosition.displayIndex;
+            }
             return item.save();
-        })
-        const res = await Promise.all(itemsArr);
+        });
+
+        const newItems = await Promise.all(itemsArr).then(items => items.map(({id, displayIndex}) => ({id, displayIndex})));
 
         return {
-            message: 'Update position successfully',
-            items: _.pick(res, ['id', 'displayIndex'])
+            itemsBefore: items.map(({id, displayIndex}) => ({id, displayIndex})),
+            items: newItems
         }
     }
 }

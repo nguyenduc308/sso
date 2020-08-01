@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "build:watch": "nest build --watch",
-    "start:watch": "nodemon dist/main",
+    "start:watch": "nodemon --legacy-watch dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

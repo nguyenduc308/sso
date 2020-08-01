@@ -1,5 +1,4 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, JoinColumn, ManyToOne, OneToMany } from "typeorm";
-import * as _ from 'lodash';
 
 import { cleanAccents } from '../../utils/stringTranform';
 import { StoryStatus } from "./story.dto";
@@ -19,6 +18,7 @@ export class StoryEntity extends BaseEntity {
     @OneToMany(type => ItemEntity, item => item.storyId, {
         cascade: true
     })
+    @JoinColumn({name: 'items'})
     items: ItemEntity[]
 
     @JoinColumn({name: 'user_id'})
@@ -45,12 +45,7 @@ export class StoryEntity extends BaseEntity {
     @BeforeInsert()
     @BeforeUpdate()
     generateSlugFromTitle() {
-        this.slug = _.chain(this.title)
-                     .thru(title => cleanAccents(title))
-                     .toLower()
-                     .split(' ')
-                     .concat(Date.now().toString())
-                     .join('-')
-                     .value();
+
+        this.slug = cleanAccents(this.title).toLocaleLowerCase().split(' ').concat([Date.now().toString()]).join('-');
     }
 }
