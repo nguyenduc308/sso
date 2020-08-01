@@ -9,7 +9,7 @@ import { UserModule } from './modules/user/user.module';
 import { ValidatorModule } from './modules/validator/validator.module';
 import { StoryModule } from './modules/story/story.module';
 import { ItemTypeModule } from './modules/item-type/item-type.module';
-import { ItemModule } from './modules/story-item/story-item.module';
+import { StoryItemModule } from './modules/story-item/story-item.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { ItemModule } from './modules/story-item/story-item.module';
     ValidatorModule,
     StoryModule,
     ItemTypeModule,
-    ItemModule
+    StoryItemModule
   ],
   controllers: [AppController],
   providers: [AppService],

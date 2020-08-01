@@ -1,8 +1,10 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, JoinColumn, ManyToOne } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { cleanAccents } from '../../utils/stringTranform';
 import * as _ from 'lodash';
 import { StoryStatus } from "./story.dto";
 import { UserEntity } from "../user/user.entity";
+import { type } from "os";
+import { ItemEntity } from "../item/item.entity";
 
 @Entity({name: 'story'})
 export class StoryEntity extends BaseEntity {
@@ -13,6 +15,12 @@ export class StoryEntity extends BaseEntity {
         // onDelete: 'CASCADE' // All story will be deleted when user be deleted
         onDelete: 'SET NULL' 
     })
+
+    @OneToMany(type => ItemEntity, item => item.storyId, {
+        cascade: true
+    })
+    items: ItemEntity[]
+
     @JoinColumn({name: 'user_id'})
     userId: number;
 

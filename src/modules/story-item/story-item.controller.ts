@@ -2,14 +2,14 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { ItemService } from "../item/item.service";
 import { ItemEntity } from "../item/item.entity";
 
-@Controller('/story-items')
+@Controller('/stories')
 export class StoryItemController {
 
     constructor(
         private itemService: ItemService
     ) {}
 
-    @Get('/:id')
+    @Get('/:id/items')
     async getItemsByStoryId(
         @Param('id') storyId: number
     ): Promise<ItemEntity[]> {
