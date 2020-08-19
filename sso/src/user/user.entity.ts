@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
+import * as bcrypt from 'bcryptjs';
 
 @Entity({ name: "user" })
 export class UserEntity extends BaseEntity {
@@ -8,8 +9,11 @@ export class UserEntity extends BaseEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   password: string;
+
+  @Column({nullable: true})
+  app: string
 
   @Column({ name: "full_name" })
   fullName: string;
@@ -25,4 +29,13 @@ export class UserEntity extends BaseEntity {
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    console.log(this);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(this.password, salt);
+    this.password = hash;
+  }
 }

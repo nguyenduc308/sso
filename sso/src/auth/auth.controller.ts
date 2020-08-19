@@ -21,4 +21,9 @@ export class AuthController {
   async getMe(@Request() req) {
     return req.user;
   }
+  @UseGuards(AuthGuard('facebook-token'))
+  @Get('/fb')
+  async getFacebookToken(@Request() req) {
+    console.log(req)
+  }
 }

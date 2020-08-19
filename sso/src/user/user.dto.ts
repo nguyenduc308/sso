@@ -1,17 +1,24 @@
+import { isNotEmpty, IsNotEmpty, IsEmail, Min, MinLength } from 'class-validator'
+import { IsMatch } from 'src/auth/validator/is-match.decorator';
 export class CreateUserDTO {
-  // not empty
-  // unique
-  // valid
+  @IsNotEmpty()
+  @IsEmail()
+  //unique
   email: string;
 
   // not empty
   // min: 6 chars
-  password: string;
+  @IsNotEmpty() // strategy local
+  @MinLength(6)
+  password?: string;
 
   // not empty
   // match
-  password2: string;
+  @IsNotEmpty()
+  @IsMatch('password', {message: 'Confirm password should match'})
+  password2?: string;
 
-  avatarUrl: string
-  bio: string;
+  avatarUrl?: string
+  bio?: string;
+  fullName?: string;
 }
