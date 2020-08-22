@@ -1,5 +1,7 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from "typeorm";
 import * as bcrypt from 'bcryptjs';
+import { UserClientEntity } from "src/user-client/user-client.entity";
+import { UserScopeEntity } from "src/user-scope/user-scope.entity";
 
 @Entity({ name: "user" })
 export class UserEntity extends BaseEntity {
@@ -38,4 +40,13 @@ export class UserEntity extends BaseEntity {
     const hash = await bcrypt.hash(this.password, salt);
     this.password = hash;
   }
+
+  // Relations
+  @OneToMany(type => UserClientEntity, e => e.userId, {
+    cascade: true
+  })
+  userClients: UserClientEntity[]
+
+  @OneToMany(type => UserScopeEntity, e => e.userId)
+  userScope: UserScopeEntity[]
 }
